@@ -1,6 +1,4 @@
-language: ruby
-rvm:
-- 2.2.5
+language: generic
 env:
   global:
   - GIT_USER_NAME="Paolo Brasolin (Travis CI)"
