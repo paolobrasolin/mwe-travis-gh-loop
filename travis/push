@@ -3,6 +3,8 @@
 # Exit with nonzero exit code if anything fails.
 set -e
 
+SHA=`git rev-parse --verify HEAD`
+
 # Now let's go have some fun with the cloned repo
 cd output
 
@@ -17,21 +19,10 @@ git config user.email "paolo.brasolin@gmail.com"
     # exit 0
 # fi
 
-echo "GONNA ADD"
-git add -A .
-echo "DID ADD"
-
+# git add -A .
 git status
-
-git remote -v
-
-# SHA=`git rev-parse --verify HEAD`
-
-# echo $SHA
-
-echo "GONNA COMMIT"
-git commit -m "Deploy to GitHub Pages:"
-echo "JUST COMMITTED"
+git commit -a -m "Deploy to GitHub Pages: ${SHA}"
+git status
 
 # git commit -a -m "Travis #$TRAVIS_BUILD_NUMBER"
 # Now that we're all set up, we can push.
