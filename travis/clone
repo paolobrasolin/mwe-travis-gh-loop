@@ -16,7 +16,13 @@ set -e
 git clone https://github.com/$TRAVIS_REPO_SLUG.git output
 cd output
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
-# git rm -rf .
+git rm -rf .
+
+
+git commit -a -m "Test"
+git push origin $TARGET_BRANCH
+
+
 cd ..
 
 # Clean out existing contents
