@@ -11,7 +11,7 @@ before_script:
 script:
   - touch foo
 after_script:
-  - ./travis/push
+  # - ./travis/push
 branches:
   only:
     - source
