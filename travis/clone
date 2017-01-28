@@ -18,6 +18,10 @@ cd output
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
 git rm -rf .
 
+git config user.name "Travis CI"
+git config user.email "paolo.brasolin@gmail.com"
+
+touch foobar
 
 git commit -a -m "Test"
 git push origin $TARGET_BRANCH
