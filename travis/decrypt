@@ -14,8 +14,8 @@ echo $ENCRYPTED_KEY
 echo $ENCRYPTED_IV
 
 openssl aes-256-cbc
-  -K $ENCRYPTED_KEY \
-  -iv $ENCRYPTED_IV \
+  -K $encrypted_ffd16756421e_key \
+  -iv $encrypted_ffd16756421e_iv \
   -in $TRAVIS_BUILD_DIR/travis/deploy_rsa.enc \
   -out $TRAVIS_BUILD_DIR/travis/deploy_rsa \
   -d
