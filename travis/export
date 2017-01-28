@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+export ENCRYPTED_KEY=$encrypted_ffd16756421e_key
+export ENCRYPTED_IV=$encrypted_ffd16756421e_iv

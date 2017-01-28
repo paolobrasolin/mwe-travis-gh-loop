@@ -8,3 +8,24 @@ REPO=`git config remote.origin.url`
 SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
 SHA=`git rev-parse --verify HEAD`
 
+rm deploy_rsa*
+
+ssh-keygen \
+  -t rsa \
+  -b 4096 \
+  -N '' \
+  -C "${REPO}@travis-ci.org" \
+  -f ./deploy_rsa
+
+tmpfile=$(mktemp)
+
+travis encrypt-file deploy_rsa | tee tmpfile
+rm deploy_rsa
+
+ENCRYPTED_KEY_ENV_VAR_NAME=$(grep -o '\$encrypted_\S*_key' tmpfile)
+ENCRYPTED_IV_ENV_VAR_NAME=$(grep -o '\$encrypted_\S*_iv' tmpfile)
+rm tmpfile
+
+sed -i "s/\$encrypted_\S*_key/$ENCRYPTED_KEY_ENV_VAR_NAME/g" export
+sed -i "s/\$encrypted_\S*_iv/$ENCRYPTED_IV_ENV_VAR_NAME/g" export
+
