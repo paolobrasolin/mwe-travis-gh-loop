@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+export SOURCE_BRANCH="master"
+export TARGET_BRANCH="gh-pages"
+
+# Save some useful information
+export REPO=`git config remote.origin.url`
+export SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
+export SHA=`git rev-parse --verify HEAD`

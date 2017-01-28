@@ -1,15 +1,14 @@
 language: ruby
 rvm:
 - 2.2.5
-sudo: false
 before_script:
 # - "./travis/clone"
 script:
 - touch foo
 after_script:
-- "./travis/export"
-- "./travis/decrypt"
+- ./travis/init
+- ./travis/decrypt
 # - "./travis/push"
 branches:
   only:
-  - master
+  - source
