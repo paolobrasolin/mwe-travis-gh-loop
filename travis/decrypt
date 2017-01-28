@@ -7,8 +7,6 @@ openssl aes-256-cbc \
   -out $TRAVIS_BUILD_DIR/travis/deploy_key \
   -d
 
-cat $TRAVIS_BUILD_DIR/travis/deploy_key
-
 chmod 600 $TRAVIS_BUILD_DIR/travis/deploy_key
 
 eval "$(ssh-agent -s)"
