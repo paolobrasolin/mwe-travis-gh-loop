@@ -22,9 +22,11 @@ git config user.email "paolo.brasolin@gmail.com"
 git status
 git add -A
 git status
+SHA=`git rev-parse --verify HEAD`
 git commit -m "Deploy to GitHub Pages: ${SHA}"
 git status
 # git commit -a -m "Travis #$TRAVIS_BUILD_NUMBER"
 
 # Now that we're all set up, we can push.
-git push $SSH_REPO $TARGET_BRANCH
+git push git@github.com:$TRAVIS_REPO_SLUG.git $TARGET_BRANCH
+

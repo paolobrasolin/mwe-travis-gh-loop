@@ -12,7 +12,7 @@ set -e
 
 # Clone the existing gh-pages for this repo into out/
 # Create a new empty branch if gh-pages doesn't exist yet (should only happen on first deploy)
-git clone $REPO output
+git clone https://github.com/$TRAVIS_REPO_SLUG.git output
 cd output
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
 # find . ! -name '.git' -type d -o -type f -exec rm -rvf {} +

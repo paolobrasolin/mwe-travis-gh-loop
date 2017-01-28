@@ -1,8 +1,12 @@
 language: ruby
 rvm:
   - 2.2.5
+env:
+  global:
+    - SOURCE_BRANCH=source
+    - TARGET_BRANCH=target
 before_script:
-  - ". /travis/init"
+  - ./travis/init
   - ./travis/clone
   - ./travis/decrypt
 script:
