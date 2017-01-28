@@ -12,8 +12,8 @@ before_script:
   - ./travis/clone
   - ./travis/decrypt
 script:
-  # - date +%s%N > output/timestamp
-  - touch output/foo
+  - date +%s%N > output/timestamp
+  # - touch output/foo
 after_script:
   - ./travis/push
 branches:
