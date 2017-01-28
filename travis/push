@@ -6,8 +6,6 @@ set -e
 # Now let's go have some fun with the cloned repo
 cd output
 
-ls; git status
-
 git config user.name "Travis CI"
 # git config user.email "$COMMIT_AUTHOR_EMAIL"
 git config user.email "paolo.brasolin@gmail.com"
@@ -19,16 +17,18 @@ git config user.email "paolo.brasolin@gmail.com"
     # exit 0
 # fi
 
-ls; git status
-git add -A
+echo "GONNA ADD"
+git add -A .
+echo "DID ADD"
+
 SHA=`git rev-parse --verify HEAD`
-ls; git status
+
 git commit -m "Deploy to GitHub Pages: ${SHA}"
 
 # git commit -a -m "Travis #$TRAVIS_BUILD_NUMBER"
 # Now that we're all set up, we can push.
 
-ls; git status
+
 git push git@github.com:$TRAVIS_REPO_SLUG.git $TARGET_BRANCH
 
-ls; git status
+
