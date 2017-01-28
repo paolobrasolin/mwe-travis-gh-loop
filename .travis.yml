@@ -5,7 +5,7 @@ sudo: false
 before_script:
 # - "./travis/clone"
 script:
-- touch output/foo
+- touch foo
 after_script:
 - "./travis/export"
 - "./travis/decrypt"
