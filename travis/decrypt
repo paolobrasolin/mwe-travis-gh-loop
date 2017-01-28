@@ -10,10 +10,12 @@ REPO=`git config remote.origin.url`
 SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
 SHA=`git rev-parse --verify HEAD`
 
-echo "here is stuff"
+echo "here is stuff the wrong way"
 echo $encrypted_ffd16756421e_key
 echo $encrypted_ffd16756421e_iv
-echo "there was stuff"
+echo "here is stuff the right way"
+echo $ENCRYPTED_KEY
+echo $ENCRYPTED_IV
 
 # openssl aes-256-cbc
   # -K $encrypted_ffd16756421e_key \
