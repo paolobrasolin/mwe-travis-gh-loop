@@ -6,7 +6,6 @@ env:
     - SOURCE_BRANCH=source
     - TARGET_BRANCH=target
 before_script:
-  - ./travis/init
   - ./travis/clone
   - ./travis/decrypt
 script:
