@@ -3,8 +3,11 @@ rvm:
   - 2.2.5
 env:
   global:
-    - SOURCE_BRANCH=source
-    - TARGET_BRANCH=target
+    - GIT_USER_NAME="Travis CI"
+    - GIT_USER_EMAIL="paolo.brasolin@gmail.com"
+    - GIT_SOURCE_BRANCH=source
+    - GIT_TARGET_BRANCH=target
+    - GIT_TARGET_FOLDER=output
 before_script:
   - ./travis/clone
   - ./travis/decrypt
