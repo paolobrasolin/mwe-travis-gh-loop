@@ -28,7 +28,7 @@ git remote -v
 SHA=`git rev-parse --verify HEAD`
 
 echo "GONNA COMMIT"
-git commit -a -m "Deploy to GitHub Pages: ${SHA}"
+git commit -m "Deploy to GitHub Pages: ${SHA}"
 echo "JUST COMMITTED"
 
 # git commit -a -m "Travis #$TRAVIS_BUILD_NUMBER"
