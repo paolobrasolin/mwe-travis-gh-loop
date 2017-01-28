@@ -23,6 +23,8 @@ echo "DID ADD"
 
 git status
 
+git remote -v
+
 SHA=`git rev-parse --verify HEAD`
 
 echo "GONNA COMMIT"
