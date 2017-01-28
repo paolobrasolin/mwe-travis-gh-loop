@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+USER_NAME="Paolo Brasolin (Travis CI)"
+USER_EMAIL="paolo.brasolin@gmail.com"
+SOURCE_BRANCH=source
+TARGET_BRANCH=target
+TARGET_FOLDER=output
