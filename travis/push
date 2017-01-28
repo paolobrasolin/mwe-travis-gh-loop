@@ -21,8 +21,9 @@ echo "GONNA ADD"
 git add -A .
 echo "DID ADD"
 
-SHA=`git rev-parse --verify HEAD`
+git status
 
+SHA=`git rev-parse --verify HEAD`
 git commit -m "Deploy to GitHub Pages: ${SHA}"
 
 # git commit -a -m "Travis #$TRAVIS_BUILD_NUMBER"
