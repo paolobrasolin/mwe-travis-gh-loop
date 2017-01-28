@@ -6,9 +6,10 @@ set -e
 cd $GIT_TARGET_FOLDER
 
 echo "1"
+echo $GIT_USER_NAME
 
-git config user.name $GIT_USER_NAME
-git config user.email $GIT_USER_EMAIL
+git config user.name "$GIT_USER_NAME"
+git config user.email "$GIT_USER_EMAIL"
 
 echo "2"
 # If there are no changes to the compiled out (e.g. this is a README update) then just bail.
