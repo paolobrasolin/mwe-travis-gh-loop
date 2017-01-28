@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-export SOURCE_BRANCH="master"
-export TARGET_BRANCH="gh-pages"
+export SOURCE_BRANCH="source"
+export TARGET_BRANCH="target"
 
 # Save some useful information
 export REPO=`git config remote.origin.url`

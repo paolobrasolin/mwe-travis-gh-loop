@@ -1,25 +1,146 @@
 #!/usr/bin/env bash
 
-REPO=`git config remote.origin.url`
+# Exit on any nonzero exit code.
+set -e
 
-rm deploy_rsa*
+#===[ Initialization ]==========================================================
+
+printf "\n#==[ %s ]\n\n" "Github login"
+
+printf "User name: "
+read GH_USERNAME
+printf "Password (hidden): "
+read -s GH_PASSWORD
+printf "\n"
+
+REPO=`git config remote.origin.url`
+REPONAME=mwe-travis-gh-loop
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+#===[ Remove current local public key from Github. ]============================
+
+printf "\n#==[ %s ]\n\n" "Removing old deploy key from Github"
+
+# Deploy key should be passed as first argument. BE WARY OF SPACES!
+get_local_key_gh_id (){
+  curl \
+    --silent \
+    --user $GH_USERNAME:$GH_PASSWORD \
+    --url https://api.github.com/repos/$GH_USERNAME/$REPONAME/keys \
+  | \
+  jq \
+    --raw-output \
+    ".[] | select(.key == \"$1\") | .id"
+}
+
+# Deploy key id should be passed as first argument.
+remove_deploy_key (){
+  curl \
+    -X DELETE \
+    --user "$GH_USERNAME:$GH_PASSWORD" \
+    https://api.github.com/repos/$GH_USERNAME/$REPONAME/keys/$1
+}
+
+# We expunge the comment from the key: GH API doesn't like it.
+PUBLIC_KEY=$(sed 's/ [^ ]*$//' $DIR/deploy_rsa.pub)
+
+ID=$(get_local_key_gh_id "$PUBLIC_KEY")
+
+if [ -z "$ID" ]; then
+  printf "The current local public key is not registred on Github.\n"
+else
+  printf "The current local public key registred on Github with id $ID.\n"
+  printf "Removing it... "
+  remove_deploy_key $ID
+  printf "Done.\n"
+fi
+
+#===[ Delete local keypair. ]===================================================
+
+printf "\n#==[ %s ]\n\n" "Delete old keypair"
+
+rm $DIR/deploy_rsa*
+printf "Done.\n"
+
+#===[ Generate new keypair. ]===================================================
+
+printf "\n#==[ %s ]\n\n" "Generate new keypair"
 
 ssh-keygen \
   -t rsa \
   -b 4096 \
   -N '' \
   -C "${REPO}@travis-ci.org" \
-  -f ./deploy_rsa
+  -f $DIR/deploy_rsa
 
-tmpfile=$(mktemp)
+#===[ Encrypt private key. ]====================================================
 
-travis encrypt-file deploy_rsa | tee tmpfile
-rm deploy_rsa
+printf "\n#==[ %s ]\n\n" "Encrypt private key"
 
-ENCRYPTED_KEY_ENV_VAR_NAME=$(grep -o '\$encrypted_\S*_key' tmpfile)
-ENCRYPTED_IV_ENV_VAR_NAME=$(grep -o '\$encrypted_\S*_iv' tmpfile)
-rm tmpfile
+travis_stdout=$(mktemp)
+travis encrypt-file $DIR/deploy_rsa | tee travis_stdout
 
-sed -i "s/\$encrypted_\S*_key/$ENCRYPTED_KEY_ENV_VAR_NAME/g" decrypt
-sed -i "s/\$encrypted_\S*_iv/$ENCRYPTED_IV_ENV_VAR_NAME/g" decrypt
+#===[ Delete unencrypted private key. ]=========================================
+
+printf "\n#==[ %s ]\n\n" "Delete unencripted private key"
+
+rm $DIR/deploy_rsa
+echo "Done."
+
+#===[ Reconfigure decrypt script. ]=============================================
+
+printf "\n#==[ %s ]\n\n" "Reconfigure decrypt script"
+
+ENCRYPTED_KEY_ENV_VAR_NAME=$(grep -o '\$encrypted_\S*_key' travis_stdout)
+ENCRYPTED_IV_ENV_VAR_NAME=$(grep -o '\$encrypted_\S*_iv' travis_stdout)
+sed -i "s/\$encrypted_\S*_key/$ENCRYPTED_KEY_ENV_VAR_NAME/g" $DIR/decrypt
+sed -i "s/\$encrypted_\S*_iv/$ENCRYPTED_IV_ENV_VAR_NAME/g" $DIR/decrypt
+
+rm travis_stdout
+echo "Done."
+
+#===[ Add pulic key to Github deploy keys. ]====================================
+
+printf "\n#==[ %s ]\n\n" "Add public key to Github deploy keys"
+
+# MEMO: for the time coming the manual procedure is disabled.
+#   Maybe I'll reactivate it through an optional flag.
+# DEPLOY_KEYS_PAGE=${REPO/\.git/\/settings\/keys}
+# printf "The last step must be done manually! Go to\n\n"
+# echo $DEPLOY_KEYS_PAGE
+# printf "\nand add the following key [deploy_rsa.pub]:\n\n"
+# cat deploy_rsa.pub
+# printf "\n"
+
+generate_post_data (){
+  PUBLIC_KEY=$(cat $DIR/deploy_rsa.pub)
+  cat <<EOF
+{
+  "title": "asdstuff@trebby",
+  "key": "$PUBLIC_KEY",
+  "read_only": false
+}
+EOF
+}
+
+add_deploy_key_gh (){
+  curl \
+    --silent \
+    -X POST \
+    --data "$(generate_post_data)" \
+    --user "$GH_USERNAME:$GH_PASSWORD" \
+    https://api.github.com/repos/$GH_USERNAME/$REPONAME/keys \
+  | \
+  jq \
+    --raw-output \
+    ".id"
+}
+
+ID=$(add_deploy_key_gh)
+
+if [ -z "$ID" ]; then
+  printf "There was a problem adding the deploy key to Github.\n\n"
+else
+  printf "The new public key is now registred on Github with id $ID.\n\n"
+fi
 
