@@ -3,6 +3,8 @@
 # Exit with nonzero exit code if anything fails.
 set -e
 
+source travis/decrypt
+
 cd $GIT_TARGET_FOLDER
 
 git config user.name "$GIT_USER_NAME"

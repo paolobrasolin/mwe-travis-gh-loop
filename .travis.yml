@@ -8,7 +8,6 @@ env:
   - GIT_TARGET_FOLDER=output
 before_script:
   - ./travis/clone
-  - source travis/decrypt
 script:
   - date +%s%N > output/timestamp
 after_script:
