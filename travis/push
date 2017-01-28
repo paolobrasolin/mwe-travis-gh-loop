@@ -15,13 +15,7 @@ git config push.default simple
     # exit 0
 # fi
 
-git status
 git add -A
-git status
-git commit -a -m "Travis #$TRAVIS_BUILD_NUMBER"
-git status
-# git push origin $TARGET_BRANCH
+git commit -m "Travis #$TRAVIS_BUILD_NUMBER"
 git push git@github.com:$TRAVIS_REPO_SLUG.git $TARGET_BRANCH
-git status
-# git push --quiet origin master > /dev/null 2>&1
 
