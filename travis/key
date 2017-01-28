@@ -26,6 +26,6 @@ ENCRYPTED_KEY_ENV_VAR_NAME=$(grep -o '\$encrypted_\S*_key' tmpfile)
 ENCRYPTED_IV_ENV_VAR_NAME=$(grep -o '\$encrypted_\S*_iv' tmpfile)
 rm tmpfile
 
-sed -i "s/\$encrypted_\S*_key/$ENCRYPTED_KEY_ENV_VAR_NAME/g" export
-sed -i "s/\$encrypted_\S*_iv/$ENCRYPTED_IV_ENV_VAR_NAME/g" export
+sed -i "s/\$encrypted_\S*_key/$ENCRYPTED_KEY_ENV_VAR_NAME/g" decrypt
+sed -i "s/\$encrypted_\S*_iv/$ENCRYPTED_IV_ENV_VAR_NAME/g" decrypt
 
