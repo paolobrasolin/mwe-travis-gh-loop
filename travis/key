@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+SOURCE_BRANCH="jekyll"
+TARGET_BRANCH="gh-pages"
+
+# Save some useful information
+REPO=`git config remote.origin.url`
+SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
+SHA=`git rev-parse --verify HEAD`
+
