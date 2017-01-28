@@ -27,6 +27,8 @@ git remote -v
 
 SHA=`git rev-parse --verify HEAD`
 
+echo $SHA
+
 echo "GONNA COMMIT"
 git commit -m "Deploy to GitHub Pages: ${SHA}"
 echo "JUST COMMITTED"
