@@ -25,12 +25,12 @@ git status
 
 git remote -v
 
-SHA=`git rev-parse --verify HEAD`
+# SHA=`git rev-parse --verify HEAD`
 
-echo $SHA
+# echo $SHA
 
 echo "GONNA COMMIT"
-git commit -m "Deploy to GitHub Pages: ${SHA}"
+git commit -m "Deploy to GitHub Pages:"
 echo "JUST COMMITTED"
 
 # git commit -a -m "Travis #$TRAVIS_BUILD_NUMBER"
