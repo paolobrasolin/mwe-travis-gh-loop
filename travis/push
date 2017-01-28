@@ -14,8 +14,12 @@ git config user.email "$GIT_USER_EMAIL"
     # exit 0
 # fi
 
+git status
 git add -A
+git status
 git commit -a -m "Travis #$TRAVIS_BUILD_NUMBER"
+git status
 git push git@github.com:$TRAVIS_REPO_SLUG.git $TARGET_BRANCH
+git status
 # git push --quiet origin master > /dev/null 2>&1
 
