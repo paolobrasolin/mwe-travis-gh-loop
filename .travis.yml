@@ -9,9 +9,9 @@ before_script:
   - ./travis/clone
   - ./travis/decrypt
 script:
-  - touch foo
+  - touch output/foo
 after_script:
-  # - ./travis/push
+  - ./travis/push
 branches:
   only:
     - source
