@@ -2,7 +2,7 @@
 
 # maybe this should be exeuted before_install
 
-SOURCE_BRANCH="jekyll"
+SOURCE_BRANCH="master"
 TARGET_BRANCH="gh-pages"
 
 # Save some useful information

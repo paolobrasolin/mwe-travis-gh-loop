@@ -3,7 +3,7 @@
 # Exit with nonzero exit code if anything fails
 set -e
 
-SOURCE_BRANCH="jekyll"
+SOURCE_BRANCH="master"
 TARGET_BRANCH="gh-pages"
 
 # Pull requests and commits to other branches shouldn't try to deploy, just build to verify

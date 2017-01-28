@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-SOURCE_BRANCH="jekyll"
+SOURCE_BRANCH="master"
 TARGET_BRANCH="gh-pages"
 
 # Save some useful information

@@ -12,4 +12,4 @@ after_script:
 # - "./travis/push"
 branches:
   only:
-  - jekyll
+  - master
