@@ -8,10 +8,9 @@ env:
   - GIT_TARGET_FOLDER=output
 before_script:
   - ./travis/clone
-  - ./travis/decrypt
+  - source travis/decrypt
 script:
   - date +%s%N > output/timestamp
-  - touch output/foobar
 after_script:
   - ./travis/push
 branches:
