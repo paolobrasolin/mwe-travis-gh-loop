@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Exit with nonzero exit code if anything fails.
+set -e
+
 # Now let's go have some fun with the cloned repo
 cd output
 ls -lah

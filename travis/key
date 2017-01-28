@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Exit on any nonzero exit code.
+# Exit with nonzero exit code if anything fails.
 set -e
 
 #===[ Initialization ]==========================================================
@@ -14,8 +14,9 @@ read -s GH_PASSWORD
 printf "\n"
 
 REPO=`git config remote.origin.url`
-REPONAME=mwe-travis-gh-loop
+REPONAME=$(grep -oP '[^\/]*?(?=\.git$)' <<< $REPO)
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+KEYNAME=$REPONAME@travis-ci.org
 
 #===[ Remove current local public key from Github. ]============================
 
@@ -42,7 +43,7 @@ remove_deploy_key (){
 }
 
 # We expunge the comment from the key: GH API doesn't like it.
-PUBLIC_KEY=$(sed 's/ [^ ]*$//' $DIR/deploy_rsa.pub)
+PUBLIC_KEY=$(sed 's/ [^ ]*$//' $DIR/deploy_key.pub)
 
 ID=$(get_local_key_gh_id "$PUBLIC_KEY")
 
@@ -59,7 +60,7 @@ fi
 
 printf "\n#==[ %s ]\n\n" "Delete old keypair"
 
-rm $DIR/deploy_rsa*
+rm $DIR/deploy_key*
 printf "Done.\n"
 
 #===[ Generate new keypair. ]===================================================
@@ -70,21 +71,21 @@ ssh-keygen \
   -t rsa \
   -b 4096 \
   -N '' \
-  -C "${REPO}@travis-ci.org" \
-  -f $DIR/deploy_rsa
+  -C $KEYNAME \
+  -f $DIR/deploy_key
 
 #===[ Encrypt private key. ]====================================================
 
 printf "\n#==[ %s ]\n\n" "Encrypt private key"
 
 travis_stdout=$(mktemp)
-travis encrypt-file $DIR/deploy_rsa | tee travis_stdout
+travis encrypt-file $DIR/deploy_key | tee travis_stdout
 
 #===[ Delete unencrypted private key. ]=========================================
 
 printf "\n#==[ %s ]\n\n" "Delete unencripted private key"
 
-rm $DIR/deploy_rsa
+rm $DIR/deploy_key
 echo "Done."
 
 #===[ Reconfigure decrypt script. ]=============================================
@@ -108,15 +109,15 @@ printf "\n#==[ %s ]\n\n" "Add public key to Github deploy keys"
 # DEPLOY_KEYS_PAGE=${REPO/\.git/\/settings\/keys}
 # printf "The last step must be done manually! Go to\n\n"
 # echo $DEPLOY_KEYS_PAGE
-# printf "\nand add the following key [deploy_rsa.pub]:\n\n"
-# cat deploy_rsa.pub
+# printf "\nand add the following key [deploy_key.pub]:\n\n"
+# cat deploy_key.pub
 # printf "\n"
 
 generate_post_data (){
-  PUBLIC_KEY=$(cat $DIR/deploy_rsa.pub)
+  PUBLIC_KEY=$(cat $DIR/deploy_key.pub)
   cat <<EOF
 {
-  "title": "asdstuff@trebby",
+  "title": "$KEYNAME",
   "key": "$PUBLIC_KEY",
   "read_only": false
 }

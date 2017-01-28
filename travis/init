@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Exit with nonzero exit code if anything fails.
+set -e
+
 export SOURCE_BRANCH="source"
 export TARGET_BRANCH="target"
 

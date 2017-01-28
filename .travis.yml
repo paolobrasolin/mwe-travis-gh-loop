@@ -1,14 +1,14 @@
 language: ruby
 rvm:
-- 2.2.5
+  - 2.2.5
 before_script:
-# - "./travis/clone"
+  - ./travis/init
+  - ./travis/clone
+  - ./travis/decrypt
 script:
-- touch foo
+  - touch foo
 after_script:
-- ./travis/init
-- ./travis/decrypt
-# - "./travis/push"
+  - ./travis/push
 branches:
   only:
-  - source
+    - source
