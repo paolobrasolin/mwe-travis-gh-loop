@@ -74,7 +74,7 @@ printf "\n"
 
 #===[ Remove current local public key from Github. ]============================
 
-title "Removing old deploy key from Github"
+title "Remove old deploy key from Github"
 
 PUBLIC_KEY=$(<"$DIR/deploy_key.pub")
 # We expunge the comment from the key: GH API doesn't like it.
