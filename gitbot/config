@@ -8,5 +8,5 @@ export GITBOT_USER_EMAIL="paolo.brasolin@gmail.com"
 export GITBOT_SOURCE_BRANCH=source
 export GITBOT_TARGET_BRANCH=target
 export GITBOT_TARGET_FOLDER=output
-export GITBOT_ROOT=$TRAVIS_BUILD_DIR/gitbot
+export GITBOT_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
