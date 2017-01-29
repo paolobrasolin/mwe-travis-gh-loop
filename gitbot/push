@@ -40,7 +40,11 @@ git config push.default simple
 
 #===[ Do push. ]================================================================
 
+git status
 git add -A
+git status
 git commit -m "Travis #$TRAVIS_BUILD_NUMBER"
+git status
 git push "git@github.com:$TRAVIS_REPO_SLUG.git" "$GITBOT_TARGET_BRANCH"
+git status
 
