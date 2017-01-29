@@ -4,8 +4,8 @@
 set -e
 
 cd $TRAVIS_BUILD_DIR
-source travis/config
-source travis/decrypt
+source gitbot/config
+source gitbot/decrypt
 cd $GIT_TARGET_FOLDER
 
 git config user.name "$GIT_USER_NAME"

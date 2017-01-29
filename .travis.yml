@@ -1,10 +1,10 @@
 language: generic
 before_script:
-  - ./travis/clone
+  - ./gitbot/clone
 script:
   - date +%s%N > output/timestamp
 after_script:
-  - ./travis/push
+  - ./gitbot/push
 branches:
   only:
   - source
