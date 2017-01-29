@@ -1,1 +1,1 @@
-# mwe-travis-gh-loop
+# mwe-travis-gitbot
