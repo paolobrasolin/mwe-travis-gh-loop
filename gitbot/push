@@ -23,7 +23,7 @@ rm "$GITBOT_ROOT/deploy_key"
 
 #===[ Configure git. ]==========================================================
 
-cd "$TRAVIS_BUILD_DIR/$GIT_TARGET_FOLDER" || exit 1
+cd "$TRAVIS_BUILD_DIR/$GITBOT_TARGET_FOLDER" || exit 1
 
 git config user.name "$GITBOT_USER_NAME"
 git config user.email "$GITBOT_USER_EMAIL"
@@ -40,11 +40,7 @@ git config push.default simple
 
 #===[ Do push. ]================================================================
 
-git status
 git add -A
-git status
 git commit -m "Travis #$TRAVIS_BUILD_NUMBER"
-git status
 git push "git@github.com:$TRAVIS_REPO_SLUG.git" "$GITBOT_TARGET_BRANCH"
-git status
 
