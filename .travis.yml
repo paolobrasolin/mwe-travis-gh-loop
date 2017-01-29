@@ -5,7 +5,6 @@ script:
   - date +%s%N > output/timestamp
 after_script:
   - ./travis/push
-  - ls
 branches:
   only:
   - source
